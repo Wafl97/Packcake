@@ -1,0 +1,16 @@
+{
+  "version": "1",
+  "name": "RueR",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/v1/",
+      "description": "Get the documentation for the API"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/user?n=<amount>",
+      "description": "Get a specified number of users. The default is 50"
+    }
+  ]
+}
