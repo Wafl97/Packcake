@@ -4,25 +4,25 @@ Packcake is a simple framework for creating REST APIs in Rust.
 
 Planned features:
 
-- Grouping endpoints with common routes
-- Option to add middleware to routes
+- [x] Grouping endpoints with common routes
+- [x] Option to add middleware to routes
 
 ## Using Packcake
 
 ````rust
-use packcake::Packcake;
+use crate::packcake::*;
 
 fn main() {
-    let api = Packcake::new();
-    api.port(2048); // Default port is 2468
-    
-    // Add endpoints and handlers for the endpoints
-    api.get("/api/v1/resource", get_resource);
-    api.post("/api/v1/resource", post_resource);
-    api.put("/api/v1/resource", put_resource); // .patch is also available
-    api.delete("/api/v1/resource", delete_resource);    
-    
-    // Run the API
+    let mut api = Packcake::new(4); // Use 4 threads
+    api.port(2121);
+    api._path("/api/v1", None, None, Some(Vec::from([
+        group_e("/user", Vec::from([
+            get("", get_user),
+            post("", post_user),
+            put("", put_user),
+            delete("", delete_user)
+        ])),
+    ])));
     api.start();
 }
 ````
@@ -33,7 +33,7 @@ The same can also be done by chaining the methods:
 use packcake::Packcake;
 
 fn main() {
-    Packcake::new()
+    Packcake::new(4)
         .port(2048)
         .get("/api/v1/resource", get_resource)
         .post("/api/v1/resource", post_resource)
